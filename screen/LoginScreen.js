@@ -120,7 +120,7 @@ const LoginScreen = () => {
             justifyContent: "space-between",
           }}
         >
-          <Text>Keep logged in</Text>
+          <Text>Keep logging in</Text>
           <Text style={{ color: "#007FFF", fontWeight: 500 }}>
             Forgot password
           </Text>
