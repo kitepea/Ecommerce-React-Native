@@ -35,11 +35,11 @@ const orderSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
-    mobileNo: {
+    mobileNumber: {
       type: String,
       required: true,
     },
-    houseNo: {
+    houseNumber: {
       type: String,
       required: true,
     },
@@ -66,7 +66,6 @@ const orderSchema = new mongoose.Schema({
   },
 });
 
-
-const Order = mongoose.model("Order",orderSchema);
+const Order = mongoose.model("Order", orderSchema);
 
 module.exports = Order;
