@@ -7,12 +7,15 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Pressable,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import SafeViewAndroid from "../components/SafeViewAndroid";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import { format as prettyFormat } from "pretty-format"; // ES2015 modules
 
 const RegisterScreen = () => {
   const navigation = useNavigation();
@@ -28,6 +31,35 @@ const RegisterScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+
+  const handleRegister = () => {
+    const user = {
+      email: email,
+      name: name,
+      password: password,
+    };
+
+    // send post request to backend
+    axios
+      .post("http://192.168.1.44:8000/register", user)
+      .then((response) => {
+        console.log(prettyFormat(response));
+        Alert.alert(
+          "Registration successful",
+          "You have been registered Successfully"
+        );
+        setName("");
+        setEmail("");
+        setPassword("");
+      })
+      .catch((error) => {
+        Alert.alert(
+          "Registration Error",
+          "An error occurred while registering"
+        );
+        console.log("registration failed:", error);
+      });
+  };
   return (
     <SafeAreaView style={[styles.container, SafeViewAndroid.AndroidSafeArea]}>
       <Image
@@ -144,11 +176,10 @@ const RegisterScreen = () => {
           </View>
         </View>
 
-
-
         <View style={{ marginTop: 50 }} />
 
         <Pressable
+          onPress={handleRegister}
           style={{
             width: 180,
             backgroundColor: "#5B92E5",
