@@ -47,10 +47,10 @@ const LoginScreen = () => {
     axios
       .post("http://192.168.222.68:8000/login", user)
       .then((response) => {
-        console.log(format(response));
+        // console.log(format(response));
         const token = response.data.token;
         AsyncStorage.setItem("authToken", token);
-        navigation.replace("Home");
+        navigation.replace("Main");
         // Remove all previous stack, user can't backpress
       })
       .catch((error) => {
