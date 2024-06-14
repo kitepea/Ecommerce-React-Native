@@ -48,7 +48,7 @@ const RegisterScreen = () => {
     // send post request to backend
     axios
       // url change
-      .post("http://192.168.222.68:8000/register", user)
+      .post("http://192.168.1.44:8000/register", user)
       .then((response) => {
         console.log(prettyFormat(response));
         Alert.alert(

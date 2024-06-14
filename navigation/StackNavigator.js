@@ -18,7 +18,7 @@ const StackNavigator = () => {
     return (
       <Tab.Navigator
         screenOptions={() => ({
-          tabBarHideOnKeyboard: true, // Need?
+          tabBarHideOnKeyboard: true, 
           tabBarStyle: [
             {
               paddingBottom: 10,

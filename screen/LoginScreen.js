@@ -12,7 +12,7 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SafeViewAndroid from "../components/SafeViewAndroid";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -38,6 +38,22 @@ const LoginScreen = () => {
     setShowPassword(!showPassword);
   };
 
+  useEffect(() => {
+    const checkLogin = async () => {
+      try {
+        const token = await AsyncStorage.getItem("authToken");
+
+        if (token) {
+          navigation.replace("Main");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    checkLogin();
+  }, []);
+
   const handleLogin = () => {
     const user = {
       email: email,
@@ -45,7 +61,7 @@ const LoginScreen = () => {
     };
 
     axios
-      .post("http://192.168.222.68:8000/login", user)
+      .post("http://192.168.1.44:8000/login", user)
       .then((response) => {
         // console.log(format(response));
         const token = response.data.token;
