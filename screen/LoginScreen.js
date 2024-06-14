@@ -10,12 +10,16 @@ import {
   Dimensions,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import SafeViewAndroid from "../components/SafeViewAndroid";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import format from "pretty-format";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -32,6 +36,31 @@ const LoginScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleLogin = () => {
+    const user = {
+      email: email,
+      password: password,
+    };
+
+    axios
+      .post("http://192.168.222.68:8000/login", user)
+      .then((response) => {
+        console.log(format(response));
+        const token = response.data.token;
+        AsyncStorage.setItem("authToken", token);
+        navigation.replace("Home");
+        // Remove all previous stack, user can't backpress
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          Alert.alert("Login Error", "Invalid password");
+        } else if (error.response.status === 404) {
+          Alert.alert("Login Error", "Invalid email");
+        }
+        console.log(error);
+      });
   };
 
   return (
@@ -161,6 +190,7 @@ const LoginScreen = () => {
           <View style={{ marginTop: 50 }} />
 
           <Pressable
+            onPress={handleLogin}
             style={{
               width: 180,
               backgroundColor: "#5B92E5",

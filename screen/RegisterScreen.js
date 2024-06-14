@@ -47,6 +47,7 @@ const RegisterScreen = () => {
 
     // send post request to backend
     axios
+      // url change
       .post("http://192.168.222.68:8000/register", user)
       .then((response) => {
         console.log(prettyFormat(response));
@@ -239,7 +240,8 @@ const RegisterScreen = () => {
             style={{ marginTop: 10 }}
           >
             <Text style={{ textAlign: "center", color: "gray", fontSize: 16 }}>
-              Already have an account? Sign In
+              Already have an account?{" "}
+              <Text style={{ color: "#007FFF" }}>Sign In</Text>
             </Text>
           </Pressable>
         </SafeAreaView>
