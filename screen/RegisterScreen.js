@@ -9,12 +9,14 @@ import {
   Pressable,
   Alert,
   ScrollView,
+  TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import React, { useState } from "react";
 import SafeViewAndroid from "../components/SafeViewAndroid";
 import { MaterialIcons } from "@expo/vector-icons";
-import { FontAwesome6 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import axios from "axios";
 import { format as prettyFormat } from "pretty-format"; // ES2015 modules
 
@@ -23,7 +25,6 @@ const RegisterScreen = () => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "white",
       alignItems: "center",
       marginTop: 50,
     },
@@ -32,6 +33,10 @@ const RegisterScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleRegister = () => {
     const user = {
@@ -42,7 +47,7 @@ const RegisterScreen = () => {
 
     // send post request to backend
     axios
-      .post("http://192.168.1.44:8000/register", user)
+      .post("http://192.168.222.68:8000/register", user)
       .then((response) => {
         console.log(prettyFormat(response));
         Alert.alert(
@@ -84,7 +89,12 @@ const RegisterScreen = () => {
               Register to your account
             </Text>
 
-            <View style={{ marginTop: 30 }}>
+            <View
+              style={{
+                marginTop: 30,
+                width: Dimensions.get("window").width * 0.9,
+              }}
+            >
               <View
                 style={{
                   flexDirection: "row",
@@ -106,7 +116,6 @@ const RegisterScreen = () => {
                   value={name}
                   onChangeText={(text) => setName(text)}
                   style={{
-                    width: 300,
                     color: "#808080",
                     marginVertical: 10,
                     fontSize: name ? 16 : 16,
@@ -116,7 +125,12 @@ const RegisterScreen = () => {
               </View>
             </View>
 
-            <View style={{ marginTop: 30 }}>
+            <View
+              style={{
+                marginTop: 30,
+                width: Dimensions.get("window").width * 0.9,
+              }}
+            >
               <View
                 style={{
                   flexDirection: "row",
@@ -147,7 +161,12 @@ const RegisterScreen = () => {
               </View>
             </View>
 
-            <View style={{ marginTop: 30 }}>
+            <View
+              style={{
+                marginTop: 30,
+                width: Dimensions.get("window").width * 0.9,
+              }}
+            >
               <View
                 style={{
                   flexDirection: "row",
@@ -160,22 +179,33 @@ const RegisterScreen = () => {
               >
                 <MaterialIcons
                   style={{ marginHorizontal: 8 }}
-                  name="password"
+                  name="lock"
                   size={24}
                   color="#808080"
                 />
                 <TextInput
                   value={password}
                   onChangeText={(text) => setPassword(text)}
-                  secureTextEntry={true}
+                  secureTextEntry={!showPassword}
                   style={{
-                    width: 300,
+                    flex: 1,
                     color: "#808080",
                     marginVertical: 10,
                     fontSize: password ? 16 : 16,
                   }}
                   placeholder="Enter your password"
-                ></TextInput>
+                />
+                <TouchableOpacity
+                  onPress={() => setShowPassword(!showPassword)}
+                >
+                  <MaterialCommunityIcons
+                    name={showPassword ? "eye-off" : "eye"}
+                    size={24}
+                    color="#808080"
+                    style={{ marginHorizontal: 8 }}
+                    onPress={toggleShowPassword}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
           </View>
