@@ -12,6 +12,7 @@ import {
 import React from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import Swiper from "react-native-swiper";
 
 const HomeScreen = () => {
   const list = [
@@ -276,6 +277,21 @@ const HomeScreen = () => {
             </Pressable>
           ))}
         </ScrollView>
+
+        <Swiper
+          autoplay={true}
+          autoplayTimeout={3}
+          paginationStyle={{ top: -400 }}
+        >
+          {images.map((image, index) => (
+            <View key={index}>
+              <Image
+                source={{ uri: image }}
+                style={{ width: "100%", height: 200 }}
+              />
+            </View>
+          ))}
+        </Swiper>
       </ScrollView>
     </SafeAreaView>
   );
